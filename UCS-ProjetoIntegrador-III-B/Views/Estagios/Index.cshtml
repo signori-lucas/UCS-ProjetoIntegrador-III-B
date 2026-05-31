@@ -1,0 +1,39 @@
+@model IEnumerable<UCS_ProjetoIntegrador_III_B.Entities.Estagio>
+
+@{
+    ViewData["Title"] = "Estágios";
+}
+
+<h2>Estágios</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Novo</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Empresa</th>
+            <th>Orientador</th>
+            <th>Alunos</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Titulo</td>
+            <td>@item.Empresa?.Nome</td>
+            <td>@item.Orientador?.Nome</td>
+            <td>@(item.Alunos?.Count ?? 0)</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

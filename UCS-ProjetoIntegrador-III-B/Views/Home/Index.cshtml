@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Início";
+}
+
+<div class="container mt-4">
+    <h1>UCS - Projeto Integrador III-B</h1>
+
+    <p>Sistema de gestão de Estágios para empresas.</p>
+
+    <h4>Funcionalidades</h4>
+    <ul>
+        <li>Cadastro e gerenciamento de empresas.</li>
+        <li>Cadastro e gerenciamento de alunos.</li>
+        <li>Cadastro e gerenciamento de orientadores.</li>
+        <li>Cadastro e gerenciamento de estágios, com associação de orientadores e alunos.</li>
+        <li>Persistência via scripts SQL e execução de criação de esquema pela interface.</li>
+        <li>Interfaces Razor MVC para CRUD das entidades.</li>
+    </ul>
+
+    <h4>Autores</h4>
+    <ul>
+        <li>Fabricio Bergonsi Boek</li>
+        <li>Lucas Dal Magro</li>
+        <li>Rafael Zanella</li>
+        <li>Gustavo Canei Pescador</li>
+        <li>Lucas Ramos da Silva</li>
+    </ul>
+
+    <h4>Configuração do Banco de Dados</h4>
+
+    @{
+        var showCreate = ViewBag.ShowCreateDatabaseButton as bool? ?? false;
+        var showDelete = ViewBag.ShowDeleteDatabaseButton as bool? ?? false;
+    }
+
+    @if (showCreate)
+    {
+        <div class="card p-3">
+            <h5>Banco de Dados</h5>
+            <p>O banco de dados ainda não foi criado ou existem objetos faltando. Clique no botão abaixo para criar o esquema necessário.</p>
+            <form asp-action="CreateDatabase" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-success">Criar Banco de Dados</button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">O banco de dados está criado e atualizado.</div>
+        @if (showDelete)
+        {
+            <div class="mt-3">
+                <form asp-action="DeleteDatabase" method="post" onsubmit="return confirm('Tem certeza que deseja excluir o banco de dados? Isso removerá todos os dados.');">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Excluir Banco de Dados</button>
+                </form>
+            </div>
+        }
+    }
+</div>

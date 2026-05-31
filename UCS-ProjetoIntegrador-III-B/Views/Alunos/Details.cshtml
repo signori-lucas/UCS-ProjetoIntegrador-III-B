@@ -1,0 +1,36 @@
+@model UCS_ProjetoIntegrador_III_B.Entities.Aluno
+
+@{
+    ViewData["Title"] = "Detalhes do Aluno";
+}
+
+<h2>Detalhes</h2>
+
+<div>
+    <h4>Aluno</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Nome</dt>
+        <dd class="col-sm-10">@Model.Nome</dd>
+
+        <dt class="col-sm-2">Matrícula</dt>
+        <dd class="col-sm-10">@Model.Matricula</dd>
+
+        <dt class="col-sm-2">CPF</dt>
+        <dd class="col-sm-10">@Model.CPF</dd>
+
+        <dt class="col-sm-2">Data Nasc.</dt>
+        <dd class="col-sm-10">@(Model.DataNascimento?.ToString("yyyy-MM-dd") ?? "")</dd>
+
+        <dt class="col-sm-2">Endereço</dt>
+        <dd class="col-sm-10">@Model.Endereco</dd>
+
+        <dt class="col-sm-2">Sexo</dt>
+        <dd class="col-sm-10">@(Model.Sexo?.ToString() ?? "")</dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</p>
