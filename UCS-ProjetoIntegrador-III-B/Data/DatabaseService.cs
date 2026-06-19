@@ -20,7 +20,6 @@ namespace UCS_ProjetoIntegrador_III_B.Data
         {
             try
             {
-                // Determine database name from connection string
                 var builder = new SqlConnectionStringBuilder(_connectionString);
                 var dbName = builder.InitialCatalog;
                 if (string.IsNullOrWhiteSpace(dbName))
@@ -28,7 +27,6 @@ namespace UCS_ProjetoIntegrador_III_B.Data
                     throw new InvalidOperationException("Connection string does not contain an Initial Catalog/Database to drop.");
                 }
 
-                // Connect to master to drop the database
                 var masterBuilder = new SqlConnectionStringBuilder(_connectionString)
                 {
                     InitialCatalog = "master"
@@ -125,7 +123,6 @@ END
                     }
                 }
 
-                // Now run the script against the target database
                 using var conn = new SqlConnection(_connectionString);
                 await conn.OpenAsync();
                 using var tran = conn.BeginTransaction();

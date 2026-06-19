@@ -1,5 +1,3 @@
--- Schema for initial database
-
 CREATE TABLE Empresas (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Nome NVARCHAR(MAX) NOT NULL,

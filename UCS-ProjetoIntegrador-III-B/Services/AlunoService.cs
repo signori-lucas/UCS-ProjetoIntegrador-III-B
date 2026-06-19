@@ -27,7 +27,6 @@ namespace UCS_ProjetoIntegrador_III_B.Services
 
         public async Task CreateAsync(Aluno aluno)
         {
-            // Validação: CPF único
             if (!string.IsNullOrWhiteSpace(aluno.CPF))
             {
                 var exists = await _repo.ExistsByCpfAsync(aluno.CPF);
@@ -42,17 +41,14 @@ namespace UCS_ProjetoIntegrador_III_B.Services
 
         public async Task UpdateAsync(Aluno aluno)
         {
-            // Se CPF informado, garantir unicidade entre outros registros
             if (!string.IsNullOrWhiteSpace(aluno.CPF))
             {
-                // obter registro existente para comparar CPF
                 var existing = await _repo.GetByIdAsync(aluno.Id);
                 if (existing == null)
                 {
                     throw new InvalidOperationException("Aluno não encontrado para atualização.");
                 }
 
-                // se o CPF mudou, verificar existência em outros registros
                 if (!string.Equals(existing.CPF, aluno.CPF, StringComparison.OrdinalIgnoreCase))
                 {
                     var exists = await _repo.ExistsByCpfAsync(aluno.CPF);

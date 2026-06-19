@@ -75,10 +75,7 @@ namespace UCS_ProjetoIntegrador_III_B.Controllers
             }
             catch (InvalidOperationException invEx)
             {
-                // business/validation error from service (e.g. CPF duplicado)
-                // attach error to CPF field so it is shown next to the input and also to the model-level summary
                 ModelState.AddModelError("CPF", invEx.Message);
-                //ModelState.AddModelError(string.Empty, invEx.Message);
                 return View(aluno);
             }
             catch (Exception)

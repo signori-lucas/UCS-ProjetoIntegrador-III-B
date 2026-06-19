@@ -12,7 +12,6 @@ namespace UCS_ProjetoIntegrador_III_B.Entities
 
         public string? Matricula { get; set; }
 
-        // Novos campos
         [Required]
         public string CPF { get; set; } = null!;
 

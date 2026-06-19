@@ -12,15 +12,10 @@ namespace UCS_ProjetoIntegrador_III_B.Entities
 
         public string? Descricao { get; set; }
 
-        // Empresa
         public int EmpresaId { get; set; }
         public Empresa? Empresa { get; set; }
-
-        // Orientador
         public int OrientadorId { get; set; }
         public Orientador? Orientador { get; set; }
-
-        // Alunos (many-to-many)
         public ICollection<Aluno> Alunos { get; set; } = new List<Aluno>();
     }
 }
