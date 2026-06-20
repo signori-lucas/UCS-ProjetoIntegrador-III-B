@@ -1,0 +1,19 @@
+
+Para realizar a publicação do projeto (já está publicado no .zip entregue)
+
+1- Executar via cmd, power shwell ou algum terminal 
+
+	dotnet publish -c Release -r win-x64 --self-contained false -o ./publish
+
+Para executar o projeto
+
+1- Acessar a pasta publish recénm publicada
+
+2- Executar via cmd, power shwell ou algum terminal 
+	2.1 - Setar a variável de ambiente
+		$env:ASPNETCORE_ENVIRONMENT = 'Production'
+	2.2 - Executar o comando para rodar a aplicação
+		dotnet .\UCS-ProjetoIntegrador-III-B.dll
+	2.3 - Acessar via browser o endereço retornado no terminal
+		Ex: "Now listening on: http://localhost:5000"
+		-> http://localhost:5000
