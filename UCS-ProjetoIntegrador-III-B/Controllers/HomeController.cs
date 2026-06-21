@@ -50,7 +50,7 @@ namespace UCS_ProjetoIntegrador_III_B.Controllers
             }
             catch (Exception ex)
             {
-                TempData["DbError"] = "Erro ao criar/atualizar o banco de dados: " + ex.Message;
+                TempData["DbError"] = "Tente Novamente! Erro ao criar/atualizar o banco de dados: " + ex.Message;
             }
 
             return RedirectToAction(nameof(Index));
@@ -72,8 +72,6 @@ namespace UCS_ProjetoIntegrador_III_B.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        // Privacy view removed; no action needed.
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

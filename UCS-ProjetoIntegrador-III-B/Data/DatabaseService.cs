@@ -55,6 +55,29 @@ END
         {
             try
             {
+                var connected = false;
+                var attempts = 0;
+                var maxAttempts = 10;
+                var delayMs = 500;
+                while (!connected && attempts < maxAttempts)
+                {
+                    try
+                    {
+                        using var testConn = new SqlConnection(_connectionString);
+                        await testConn.OpenAsync();
+                        connected = true;
+                    }
+                    catch
+                    {
+                        attempts++;
+                        await Task.Delay(delayMs);
+                    }
+                }
+                if (!connected)
+                {
+                    throw new DatabaseException("Erro ao conectar ao banco recém-criado após múltiplas tentativas.");
+                }
+
                 using var conn = new SqlConnection(_connectionString);
                 await conn.OpenAsync();
                 return true;
@@ -84,18 +107,32 @@ END
 
         public async Task EnsureCreatedAsync()
         {
-            // read SQL script
+            var tried = new List<string>();
             var scriptPath = Path.Combine(_env.ContentRootPath, "SqlScripts", "create_tables.sql");
-            if (!File.Exists(scriptPath)) throw new FileNotFoundException("SQL script for creating tables not found.", scriptPath);
+            tried.Add(scriptPath);
+            if (!File.Exists(scriptPath))
+            {
+                var alt1 = Path.Combine(AppContext.BaseDirectory, "SqlScripts", "create_tables.sql");
+                tried.Add(alt1);
+                if (File.Exists(alt1)) scriptPath = alt1;
+                else
+                {
+                    var alt2 = Path.Combine(Directory.GetCurrentDirectory(), "SqlScripts", "create_tables.sql");
+                    tried.Add(alt2);
+                    if (File.Exists(alt2)) scriptPath = alt2;
+                }
+            }
+            if (!File.Exists(scriptPath))
+            {
+                throw new FileNotFoundException($"SQL script for creating tables not found. Paths tried: {string.Join(';', tried)}", scriptPath);
+            }
 
             var script = await File.ReadAllTextAsync(scriptPath);
 
-            // split batches by GO (line with only GO)
             var batches = SplitSqlBatches(script);
 
             try
             {
-                // Ensure database exists. If not, create it by connecting to master.
                 var builder = new SqlConnectionStringBuilder(_connectionString);
                 var dbName = builder.InitialCatalog;
                 if (string.IsNullOrWhiteSpace(dbName))
@@ -149,7 +186,7 @@ END
             }
             catch (Exception ex)
             {
-                throw new DatabaseException("Erro ao acessar o banco de dados durante a criação do esquema.", ex);
+                throw new DatabaseException(ex.Message, ex);
             }
         }
 
